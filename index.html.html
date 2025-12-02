@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think About It</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFB5C0; /* Light pink background */
+            color: #333;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .main-text {
+            font-size: 24px;
+            color: #C2185B; /* Dark pink */
+            margin-bottom: 20px;
+        }
+        .sub-text {
+            font-size: 16px;
+            color: #888; /* Greyish */
+            margin-bottom: 30px;
+        }
+        .bottom-text {
+            font-size: 18px;
+            color: #333;
+            margin-top: 30px;
+        }
+        .yes-message {
+            font-size: 24px;
+            color: #FF0000; /* Strong red */
+            margin-bottom: 20px;
+        }
+        .emoji-close {
+            font-size: 40px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .crying-message {
+            font-size: 18px;
+            color: black;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #no-button {
+            background-color: #f44336;
+        }
+        #no-button:hover {
+            background-color: #da190b;
+        }
+        .hidden {
+            display: none;
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content">
+        <div class="main-text">
+            I respect your views… I just wanted you to know that you’ve become a quiet motivation in my life
+        </div>
+        <div class="sub-text">
+            Some people unknowingly inspire us tum unhi logon mein se ho.
+        </div>
+        <button onclick="sayYes()">Yes!</button>
+        <button id="no-button" onclick="nextNo()">No</button>
+        <div class="bottom-text">
+            Hania, you ground Uzair 🎀❤️
+        </div>
+    </div>
+
+    <div class="hidden" id="yes-content">
+        <div class="yes-message">
+            Hania, you made my whole world brighter… you’re the angel I prayed for, and I’m never losing you again.
+        </div>
+        <div class="emoji-close" onclick="closeSite()">❤️</div>
+    </div>
+
+    <div class="hidden" id="crying-message">
+        <div class="crying-message">
+            I wasn’t ready to lose you, and maybe you’ll move on… but I know I won’t. Your ‘no’ felt like the end, and I’m still here carrying this pain, Hania 😭
+        </div>
+    </div>
+
+    <script>
+        let noCount = 0;
+        const stages = [
+            { title: "Last Chance!", message: "This is your last chance. Don't regret it!" },
+            { title: "Think Again!", message: "Are you sure? Maybe I can change your mind..." },
+            { title: "I Am Nice Guy!", message: "I'm a nice guy, you know. Give me a shot!" },
+            { title: "U Will Regret!", message: "You'll regret saying no later!" },
+            { title: "Don't Be So Quick!", message: "Don't be so quick to decide. Think it over!" },
+            { title: "Give It a Second Thought!", message: "Give it a second thought. It could be amazing!" },
+            { title: "You're Missing Out!", message: "You're missing out on something great!" },
+            { title: "Come On, Say Yes!", message: "Come on, just say yes already!" },
+            { title: "I Promise It'll Be Fun!", message: "I promise it'll be fun. Trust me!" },
+            { title: "You Know You Want To!", message: "You know you want to deep down!" },
+            { title: "Last Warning!", message: "This is your last warning!" },
+            { title: "Seriously, Think About It!", message: "Seriously, think about it one more time!" },
+            { title: "One More Try!", message: "One more try? Please?" }
+        ];
+        const infiniteMessages = [
+            ...stages.map(s => s.title + " - " + s.message),
+            "Nope, not giving up!",
+            "You're just playing hard to get!",
+            "I won't stop until you say yes!",
+            "Infinite loops are fun, right?",
+            "This button is haunted!",
+            "Try closing the tab... dare you!",
+            "You're stuck now!",
+            "More chances? Sure, why not!",
+            "Regret is coming... or is it?"
+        ];
+
+        function sayYes() {
+            document.getElementById('main-content').classList.add('hidden');
+            document.getElementById('yes-content').classList.remove('hidden');
+        }
+
+        function nextNo() {
+            noCount++;
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 500);
+
+            if (noCount <= stages.length) {
+                // Show the next predefined stage by replacing the main text
+                const stage = stages[noCount - 1];
+                document.querySelector('.main-text').textContent = stage.title;
+                document.querySelector('.sub-text').textContent = stage.message;
+            } else if (noCount === stages.length + 1) {
+                // After the last stage, show the crying message
+                document.getElementById('main-content').classList.add('hidden');
+                document.getElementById('crying-message').classList.remove('hidden');
+                return; // Stop further progression
+            } else {
+                // Infinite loop: random message + effects
+                const randomMsg = infiniteMessages[Math.floor(Math.random() * infiniteMessages.length)];
+                alert(randomMsg);
+                moveButton();
+                if (noCount % 5 === 0) {
+                    setTimeout(() => location.reload(), 1000);
+                }
+            }
+        }
+
+        function moveButton() {
+            const button = document.getElementById('no-button');
+            button.style.position = 'absolute';
+            button.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            button.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+        }
+
+        function closeSite() {
+            window.location.href = 'about:blank'; // Simulates closing the site
+        }
+    </script>
+</body>
+</html>
